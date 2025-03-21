@@ -1,7 +1,7 @@
 namespace Application.Models;
 
 
-public class Visit
+public class Visit : ISoftDeletable
 {
     public int Id { get; set; }
     public DateTime VisitStartDate { get; set; }
@@ -9,6 +9,7 @@ public class Visit
     public DateTime CompletionDate { get; set; }
     public string Status { get; set; }
     public decimal TotalPrice { get; set; }
+    public DateTime? DeletedAt { get; set; }
     
     public int CustomerId { get; set; }
     public Customer? Customer { get; set; }

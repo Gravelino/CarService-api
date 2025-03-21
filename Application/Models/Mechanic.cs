@@ -1,6 +1,6 @@
 namespace Application.Models;
 
-public class Mechanic
+public class Mechanic : ISoftDeletable
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
@@ -11,4 +11,5 @@ public class Mechanic
     public string Email { get; set; }
     public decimal Salary { get; set; }
     public bool IsBooked { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

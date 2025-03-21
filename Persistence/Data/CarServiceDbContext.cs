@@ -24,4 +24,22 @@ public class CarServiceDbContext :DbContext
     public DbSet<Tool> Tools { get; set; }
     public DbSet<VisitServiceSchedule> VisitServiceSchedules { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    
+    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Customer>().HasQueryFilter(c => !c.IsDeleted);
+        modelBuilder.Entity<Car>().HasQueryFilter(c => !c.IsDeleted);
+        modelBuilder.Entity<Mechanic>().HasQueryFilter(m => !m.IsDeleted);
+        modelBuilder.Entity<ServiceCategory>().HasQueryFilter(sc => !sc.IsDeleted);
+        modelBuilder.Entity<Service>().HasQueryFilter(s => !s.IsDeleted);
+        modelBuilder.Entity<Visit>().HasQueryFilter(v => !v.IsDeleted);
+        modelBuilder.Entity<VisitService>().HasQueryFilter(vs => !vs.IsDeleted);
+        modelBuilder.Entity<Feedback>().HasQueryFilter(f => !f.IsDeleted);
+        modelBuilder.Entity<Payment>().HasQueryFilter(p => !p.IsDeleted);
+        modelBuilder.Entity<MechanicService>().HasQueryFilter(ms => !ms.IsDeleted);
+        modelBuilder.Entity<ServiceTool>().HasQueryFilter(st => !st.IsDeleted);
+        modelBuilder.Entity<Tool>().HasQueryFilter(t => !t.IsDeleted);
+        modelBuilder.Entity<VisitServiceSchedule>().HasQueryFilter(vss => !vss.IsDeleted);
+        modelBuilder.Entity<Transaction>().HasQueryFilter(t => !t.IsDeleted);
+    }*/
 }
