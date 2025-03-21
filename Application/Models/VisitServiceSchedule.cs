@@ -9,6 +9,6 @@ public class VisitServiceSchedule
     public int VisitServiceId { get; set; }
     public VisitService? VisitService { get; set; }
     
-    public int MechanicId { get; set; }
-    public Mechanic? Mechanic { get; set; }
+    public int WorkerId { get; set; }
+    public Worker? Worker { get; set; }
 }
