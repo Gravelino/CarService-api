@@ -1,8 +1,8 @@
 using Application.Models;
 
-namespace Persistence.Repositories;
+namespace Persistence.Repositories.Interfaces;
 
-public interface IServiceRepository : ISoftDeletableRepository<Visit>
+public interface IServiceRepository : ISoftDeletableRepository<Service>
 {
     Task<IEnumerable<Service>> GetServicesByCategoryIdAsync(int categoryId);
     Task<IEnumerable<Service>> GetMostPopularServicesAsync(int limit);

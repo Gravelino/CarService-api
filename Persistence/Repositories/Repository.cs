@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
+using Persistence.Repositories.Interfaces;
 
 namespace Persistence.Repositories;
 

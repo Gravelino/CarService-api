@@ -1,6 +1,6 @@
 namespace Application.Models;
 
-public class Feedback
+public class Feedback : ISoftDeletable
 {
     public int Id { get; set; }
 
@@ -10,4 +10,5 @@ public class Feedback
     
     public int VisitId { get; set; }
     public Visit? Visit { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

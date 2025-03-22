@@ -16,4 +16,8 @@ public class Visit : ISoftDeletable
     
     public int CarId { get; set; }
     public Car? Car { get; set; }
+    
+    public ICollection<Payment>? Payments { get; set; }
+    public ICollection<VisitService>? VisitServices { get; set; }
+    public ICollection<VisitServiceSchedule>? VisitServiceSchedules { get; set; }
 }

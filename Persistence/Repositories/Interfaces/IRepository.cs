@@ -1,4 +1,4 @@
-namespace Persistence.Repositories;
+namespace Persistence.Repositories.Interfaces;
 
 public interface IRepository<TEntity> where TEntity : class
 {

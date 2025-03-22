@@ -1,6 +1,6 @@
 namespace Application.Models;
 
-public class Payment
+public class Payment : ISoftDeletable
 {
     public int Id { get; set; }
    
@@ -12,4 +12,5 @@ public class Payment
     
     public int VisitId { get; set; }
     public Visit? Visit { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

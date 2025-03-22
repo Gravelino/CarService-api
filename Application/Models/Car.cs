@@ -13,4 +13,6 @@ public class Car : ISoftDeletable
     
     public int CustomerId { get; set; }
     public Customer? Customer { get; set; }
+    
+    public ICollection<Visit>? Visits { get; set; }
 }

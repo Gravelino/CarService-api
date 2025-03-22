@@ -1,9 +1,9 @@
 using Application.Models;
 
-namespace Persistence.Repositories;
+namespace Persistence.Repositories.Interfaces;
 
 public interface IFeedbackRepository :IRepository<Feedback>
 {
     Task<IEnumerable<Feedback>> GetFeedbackForVisitAsync(int visitId);
-    Task<decimal> GetAverageRatingForServiceAsync(int serviceId);
+    Task<double> GetAverageRatingForServiceAsync(int serviceId);
 }
