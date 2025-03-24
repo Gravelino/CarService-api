@@ -12,19 +12,13 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         
     }
 
-    public async Task<Worker> GetWorkerWithScheduledVisitsByIdAsync(int workerId)
+    public async Task<Worker?> GetWorkerWithScheduledVisitsByIdAsync(int workerId)
     {
         var worker = await _dbSet
+            .Include(w => w.VisitServiceSchedules)
+            .ThenInclude(vss => vss.VisitService)
+            .ThenInclude(vs => vs.Visit.DeletedAt == null)
             .FirstOrDefaultAsync(m => m.Id == workerId && m.DeletedAt == null);
-
-        if (worker != null)
-        {
-            var schedules = await _context.VisitServiceSchedules
-                .Include(vss => vss.VisitService)
-                .ThenInclude(vs => vs.Visit)
-                .Where(vss => vss.WorkerId == workerId && vss.VisitService.Visit.DeletedAt == null)
-                .ToListAsync();
-        }
 
         return worker;
     }

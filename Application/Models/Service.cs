@@ -9,6 +9,9 @@ public class Service: ISoftDeletable
     public int Duration { get; set; }
     public DateTime? DeletedAt { get; set; }
     
-    public int CategoryId { get; set; }
-    public ServiceCategory? Category { get; set; }
+    public int ServiceCategoryId { get; set; }
+    public ServiceCategory? ServiceCategory { get; set; }
+    public ICollection<Tool>? Tools { get; set; }
+    public ICollection<WorkerService>? WorkerServices { get; set; }
+    public ICollection<VisitService>? VisitServices { get; set; }
 }

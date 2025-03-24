@@ -12,14 +12,16 @@ public class VisitRepository: SoftDeletableRepository<Visit>, IVisitRepository
         
     }
 
-    public async Task<Visit> GetVisitWithServicesAndWorkersByIdAsync(int visitId)
+    public async Task<Visit?> GetVisitWithServicesAndWorkersByIdAsync(int visitId)
     {
-        return await _dbSet
+        var visit = await _dbSet
             .Include(v => v.VisitServices)
             .ThenInclude(vs => vs.Service)
-            .Include(v => v.VisitServiceSchedules)
-            .ThenInclude(vss => vss.Worker)
+            .ThenInclude(s => s.WorkerServices)
+            .ThenInclude(ws => ws.Worker)
             .FirstOrDefaultAsync(v => v.Id == visitId);
+        
+         return visit;
     }
 
     public async Task<IEnumerable<Visit>> GetVisitsByCustomerIdAsync(int customerId)

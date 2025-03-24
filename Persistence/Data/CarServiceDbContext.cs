@@ -20,7 +20,6 @@ public class CarServiceDbContext :DbContext
     public DbSet<Feedback> Feedbacks { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<WorkerService> WorkerServices { get; set; }
-    public DbSet<ServiceTool> ServiceTools { get; set; }
     public DbSet<Tool> Tools { get; set; }
     public DbSet<VisitServiceSchedule> VisitServiceSchedules { get; set; }
     public DbSet<Transaction> Transactions { get; set; }

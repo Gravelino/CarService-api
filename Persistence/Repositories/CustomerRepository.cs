@@ -11,7 +11,7 @@ public class CustomerRepository : SoftDeletableRepository<Customer>, ICustomerRe
     {
     }
 
-    public async Task<Customer> GetCustomerWithCarsByIdAsync(int customerId)
+    public async Task<Customer?> GetCustomerWithCarsByIdAsync(int customerId)
     {
         return await _dbSet
             .Include(c => c.Cars)

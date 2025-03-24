@@ -7,4 +7,5 @@ public class Tool : ISoftDeletable
     public string Description { get; set; }
     public int SerialNumber { get; set; }
     public DateTime? DeletedAt { get; set; }
+    public ICollection<Service> Services { get; set; }
 }

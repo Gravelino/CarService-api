@@ -15,7 +15,7 @@ public class ServiceRepository : SoftDeletableRepository<Service>, IServiceRepos
     public async Task<IEnumerable<Service>> GetServicesByCategoryIdAsync(int categoryId)
     {
         return await _dbSet
-            .Where(s => s.CategoryId == categoryId && s.DeletedAt == null)
+            .Where(s => s.ServiceCategoryId == categoryId && s.DeletedAt == null)
             .ToListAsync();
     }
 

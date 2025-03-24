@@ -12,4 +12,7 @@ public class Worker : ISoftDeletable
     public decimal Salary { get; set; }
     public bool IsActive { get; set; }
     public DateTime? DeletedAt { get; set; }
+    
+    public ICollection<VisitServiceSchedule>? VisitServiceSchedules { get; set; }
+    public ICollection<WorkerService>? WorkerServices { get; set; }
 }

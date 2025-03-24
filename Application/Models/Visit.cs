@@ -19,5 +19,5 @@ public class Visit : ISoftDeletable
     
     public ICollection<Payment>? Payments { get; set; }
     public ICollection<VisitService>? VisitServices { get; set; }
-    public ICollection<VisitServiceSchedule>? VisitServiceSchedules { get; set; }
+    public ICollection<Feedback>? Feedbacks { get; set; }
 }

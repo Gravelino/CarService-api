@@ -18,7 +18,7 @@ public class CarRepository : SoftDeletableRepository<Car>, ICarRepository
             .ToListAsync();
     }
 
-    public async Task<Car> GetCarWithVisitHistoryAsync(int carId)
+    public async Task<Car?> GetCarWithVisitHistoryAsync(int carId)
     {
         return await _dbSet
             .Include(c => c.Visits)

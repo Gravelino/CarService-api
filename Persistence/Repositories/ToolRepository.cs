@@ -14,17 +14,20 @@ public class ToolRepository : SoftDeletableRepository<Tool>, IToolRepository
 
     public async Task<IEnumerable<Tool>> GetToolsForServiceAsync(int serviceId)
     {
-        var tools = await _context.ServiceTools
-            .Where(st => st.ServiceId == serviceId)
-            .Select(st => st.ToolId)
-            .ToListAsync();
+        var service = await _context.Services
+            .Include(s => s.Tools)
+            .FirstOrDefaultAsync(s => s.Id == serviceId && s.DeletedAt == null);
+        if (service == null)
+        {
+            return [];
+        }
 
-        return await _dbSet
-            .Where(t => tools.Contains(t.Id) && t.DeletedAt == null)
-            .ToListAsync();
+        var tools = service.Tools.Where(t => t.DeletedAt == null).ToList();
+
+        return tools;
     }
 
-    public async Task<Tool> GetToolBySerialNumberAsync(int serialNumber)
+    public async Task<Tool?> GetToolBySerialNumberAsync(int serialNumber)
     {
         return await _dbSet
             .FirstOrDefaultAsync(t => t.SerialNumber == serialNumber && t.DeletedAt == null);
