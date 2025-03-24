@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Cars\" />
       <Folder Include="Features\Customers\" />
       <Folder Include="Features\Feedbacks\" />
       <Folder Include="Features\Payments\" />
@@ -16,6 +15,11 @@
       <Folder Include="Features\Visits\" />
       <Folder Include="Features\Workers\" />
       <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.4.1" />
+      <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
     </ItemGroup>
 
 </Project>
