@@ -8,7 +8,7 @@ public class Car : ISoftDeletable
     public int Year { get; set; }
     public string LicensePlate { get; set; }
     public string Color { get; set; }
-    public DateTime LastServiceDate { get; set; }
+    public DateTime? LastServiceDate { get; set; }
     public DateTime? DeletedAt { get; set; }
     
     public int CustomerId { get; set; }
