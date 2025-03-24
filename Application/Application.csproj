@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Payments\" />
       <Folder Include="Features\Services\" />
       <Folder Include="Features\Tools\" />
       <Folder Include="Features\Visits\" />

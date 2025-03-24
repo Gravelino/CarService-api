@@ -22,7 +22,6 @@ public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackComman
         
         if(request.Rating is not null) feedback.Rating = (int)request.Rating;
         if(request.Comment is not null) feedback.Comment = request.Comment;
-        if(request.VisitId is not null) feedback.VisitId = (int)request.VisitId;
 
         _feedbackRepository.Update(feedback);
         await _feedbackRepository.SaveChangesAsync();
