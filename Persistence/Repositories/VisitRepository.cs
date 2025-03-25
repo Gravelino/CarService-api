@@ -1,7 +1,7 @@
-﻿using Application.Models;
+﻿using Application.Interfaces;
+using Application.Models;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
-using Persistence.Repositories.Interfaces;
 
 namespace Persistence.Repositories;
 

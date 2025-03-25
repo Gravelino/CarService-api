@@ -1,6 +1,6 @@
 using Application.Features.Workers.SoftDeleteWorker;
+using Application.Interfaces;
 using MediatR;
-using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Workers.SoftDeleteWorker;
 

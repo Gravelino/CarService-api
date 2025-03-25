@@ -1,6 +1,6 @@
 using Application.Features.Visits.SoftDeleteVisit;
+using Application.Interfaces;
 using MediatR;
-using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Visits.SoftDeleteVisit;
 

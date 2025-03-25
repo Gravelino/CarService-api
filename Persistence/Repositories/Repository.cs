@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
-using Persistence.Repositories.Interfaces;
+using Application.Interfaces;
 
 namespace Persistence.Repositories;
 
@@ -15,15 +15,27 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         _dbSet = context.Set<TEntity>();
     }
     
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+    public virtual  async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
 
-    public virtual async Task<TEntity?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+    public virtual  async Task<TEntity?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
     
-    public virtual async Task AddAsync(TEntity entity) => await _dbSet.AddAsync(entity);
+    public virtual async Task AddAsync(TEntity entity) 
+    {
+        await _dbSet.AddAsync(entity);
+        await _context.SaveChangesAsync();
+    }
 
-    public void Update(TEntity entity) => _dbSet.Update(entity);
+    public virtual async Task Update(TEntity entity) 
+    {
+        _dbSet.Update(entity);
+        await _context.SaveChangesAsync();
+    }
 
-    public void Delete(TEntity entity) => _dbSet.Remove(entity);
+    public virtual async Task Delete(TEntity entity) 
+    {
+        _dbSet.Remove(entity);
+        await _context.SaveChangesAsync();
+    }
 
     public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 }

@@ -1,7 +1,7 @@
 using Application.Features.Visits.CreateVisit;
+using Application.Interfaces;
 using Application.Models;
 using MediatR;
-using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Visits.CreateVisit;
 

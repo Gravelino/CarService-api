@@ -1,7 +1,7 @@
-﻿using Application.Models;
+﻿using Application.Interfaces;
+using Application.Models;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
-using Persistence.Repositories.Interfaces;
 
 namespace Persistence.Repositories;
 
@@ -9,11 +9,6 @@ public class CustomerRepository : SoftDeletableRepository<Customer>, ICustomerRe
 {
     public CustomerRepository(CarServiceDbContext context) : base(context)
     {
-    }
-
-    public override Task AddAsync(Customer customer)
-    {
-        
     }
 
     public async Task<Customer?> GetCustomerWithCarsByIdAsync(int customerId)
@@ -39,5 +34,45 @@ public class CustomerRepository : SoftDeletableRepository<Customer>, ICustomerRe
             .OrderByDescending(c => c.Visits.Where(v => v.DeletedAt == null).Sum(v => v.TotalPrice))
             .Take(limit)
             .ToListAsync();
+    }
+
+    public async Task<bool> IsEmailUniqueAsync(string email, int? excludedId = null)
+    {
+        return !await _context.Customers
+            .Where(c => c.DeletedAt == null)
+            .Where(c => c.Email == email)
+            .Where(c => excludedId == null || c.Id != excludedId.Value)
+            .AnyAsync();
+    }
+
+    public async Task<bool> IsPhoneUniqueAsync(string phone, int? excludedId = null)
+    {
+        return !await _context.Customers
+            .Where(c => c.DeletedAt == null)
+            .Where(c => c.Phone == phone)
+            .Where(c => excludedId == null || c.Id != excludedId.Value)
+            .AnyAsync();
+    }
+    
+    public override async Task AddAsync(Customer customer)
+    {
+        if (!await IsEmailUniqueAsync(customer.Email))
+            throw new Exception("A user with this email already exists");
+
+        if (!await IsPhoneUniqueAsync(customer.Phone))
+            throw new Exception("A user with this phone already exists");
+
+        await base.AddAsync(customer);
+    }
+
+    public override async Task Update(Customer customer)
+    {
+        if (!await IsEmailUniqueAsync(customer.Email, customer.Id))
+            throw new Exception("A user with this email already exists");
+
+        if (!await IsPhoneUniqueAsync(customer.Phone, customer.Id))
+            throw new Exception("A user with this phone already exists");
+
+        await base.Update(customer);
     }
 }

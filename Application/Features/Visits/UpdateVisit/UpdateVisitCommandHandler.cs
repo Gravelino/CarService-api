@@ -1,7 +1,7 @@
 using Application.Features.Tools.UpdateTool;
 using Application.Features.Visits.UpdateVisit;
+using Application.Interfaces;
 using MediatR;
-using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Visits.UpdateVisit;
 

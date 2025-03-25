@@ -1,7 +1,7 @@
 ﻿using Application.Features.Visits.GetAllVisits;
+using Application.Interfaces;
 using Application.Models;
 using MediatR;
-using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Visits.GetVisitById;
 

@@ -1,8 +1,8 @@
 using System.Reflection;
+using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Persistence.Repositories;
-using Persistence.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMediatR(configuration =>

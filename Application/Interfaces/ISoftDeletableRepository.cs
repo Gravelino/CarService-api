@@ -1,6 +1,6 @@
 using Application.Models;
 
-namespace Persistence.Repositories.Interfaces;
+namespace Application.Interfaces;
 
 public interface ISoftDeletableRepository<TEntity> : IRepository<TEntity> where TEntity : class, ISoftDeletable
 {

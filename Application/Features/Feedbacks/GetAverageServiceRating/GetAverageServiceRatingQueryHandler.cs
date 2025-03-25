@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Persistence.Repositories.Interfaces;
+﻿using Application.Interfaces;
+using MediatR;
 
 namespace Application.Features.Feedbacks.GetAverageServiceRating;
 

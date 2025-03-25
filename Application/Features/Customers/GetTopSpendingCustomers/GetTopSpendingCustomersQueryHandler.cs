@@ -1,6 +1,6 @@
 ﻿using Application.Features.Customers.GetAllCustomers;
+using Application.Interfaces;
 using Application.Models;
-using Persistence.Repositories.Interfaces;
 using MediatR;
 
 namespace Application.Features.Customers.GetTopSpendingCustomers;
