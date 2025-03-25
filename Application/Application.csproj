@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Services\" />
-      <Folder Include="Features\Tools\" />
-      <Folder Include="Features\Visits\" />
-      <Folder Include="Features\Workers\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
