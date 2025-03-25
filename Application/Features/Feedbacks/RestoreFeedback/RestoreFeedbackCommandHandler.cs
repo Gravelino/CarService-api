@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Feedbacks.RestoreFeedback;
 
-public class RestoreFeedbackCommandHandler : IRequestHandler<RestoreFeedbackCommand, bool>
+public class RestoreFeedbackCommandHandler : IRequestHandler<RestoreFeedbackCommand>
 {
     private readonly IFeedbackRepository _feedbackRepository;
 
@@ -12,16 +12,14 @@ public class RestoreFeedbackCommandHandler : IRequestHandler<RestoreFeedbackComm
         _feedbackRepository = feedbackRepository;
     }
     
-    public async Task<bool> Handle(RestoreFeedbackCommand request, CancellationToken cancellationToken)
+    public async Task Handle(RestoreFeedbackCommand request, CancellationToken cancellationToken)
     {
         var feedback = await _feedbackRepository.GetByIdAsync(request.Id);
         if (feedback == null)
         {
-            return false;
+            throw new Exception("Feedback not found");
         }
         
         await _feedbackRepository.RestoreAsync(feedback.Id);
-        
-        return true;
     }
 }

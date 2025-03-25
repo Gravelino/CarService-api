@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Customers.RestoreCustomer;
 
-public class RestoreCustomerCommandHandler : IRequestHandler<RestoreCustomerCommand, bool>
+public class RestoreCustomerCommandHandler : IRequestHandler<RestoreCustomerCommand>
 {
     private readonly ICustomerRepository _customerRepository;
 
@@ -12,16 +12,14 @@ public class RestoreCustomerCommandHandler : IRequestHandler<RestoreCustomerComm
         _customerRepository = customerRepository;
     }
     
-    public async Task<bool> Handle(RestoreCustomerCommand request, CancellationToken cancellationToken)
+    public async Task Handle(RestoreCustomerCommand request, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetByIdAsync(request.Id);
         if (customer == null)
         {
-            return false;
+            throw new Exception("Customer not found");
         }
         
         await _customerRepository.RestoreAsync(customer.Id);
-        
-        return true;
     }
 }

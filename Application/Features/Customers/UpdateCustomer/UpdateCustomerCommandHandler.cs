@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Customers.UpdateCustomer;
 
-public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, bool>
+public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand>
 {
     private readonly ICustomerRepository _customerRepository;
 
@@ -12,12 +12,12 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
         _customerRepository = customerRepository;
     }
     
-    public async Task<bool> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetByIdAsync(request.Id);
         if (customer == null)
         {
-            return false;
+            throw new Exception("Customer not found");
         }
         
         if(request.FirstName is not null) customer.FirstName = request.FirstName;
@@ -28,7 +28,5 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
 
         _customerRepository.Update(customer);
         await _customerRepository.SaveChangesAsync();
-        
-        return true;
     }
 }

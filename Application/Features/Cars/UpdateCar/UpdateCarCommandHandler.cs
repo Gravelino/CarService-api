@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Cars.UpdateCar;
 
-public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, bool>
+public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand>
 {
     private readonly ICarRepository _carRepository;
 
@@ -12,12 +12,12 @@ public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, bool>
         _carRepository = carRepository;
     }
     
-    public async Task<bool> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateCarCommand request, CancellationToken cancellationToken)
     {
         var car = await _carRepository.GetByIdAsync(request.Id);
         if (car == null)
         {
-            return false;
+            throw new Exception("Car not found");
         }
         
         if (request.Brand is not null) car.Brand = request.Brand;
@@ -29,7 +29,5 @@ public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, bool>
 
         _carRepository.Update(car);
         await _carRepository.SaveChangesAsync();
-        
-        return true;
     }
 }

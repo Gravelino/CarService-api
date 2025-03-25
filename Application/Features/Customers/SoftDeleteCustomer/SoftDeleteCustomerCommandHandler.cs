@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Customers.SoftDeleteCustomer;
 
-public class SoftDeleteCustomerCommandHandler : IRequestHandler<SoftDeleteCustomerCommand, bool>
+public class SoftDeleteCustomerCommandHandler : IRequestHandler<SoftDeleteCustomerCommand>
 {
     private readonly ICustomerRepository _customerRepository;
 
@@ -12,16 +12,14 @@ public class SoftDeleteCustomerCommandHandler : IRequestHandler<SoftDeleteCustom
         _customerRepository = customerRepository;
     }
 
-    public async Task<bool> Handle(SoftDeleteCustomerCommand request, CancellationToken cancellationToken)
+    public async Task Handle(SoftDeleteCustomerCommand request, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetByIdAsync(request.Id);
         if (customer == null)
         {
-            return false;
+            throw new Exception("Customer not found");
         }
         
         await _customerRepository.SoftDeleteAsync(customer.Id);
-        
-        return true;
     }
 }

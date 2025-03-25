@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Payments.UpdatePayment;
 
-public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, bool>
+public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand>
 {
     private readonly IPaymentRepository _paymentRepository;
 
@@ -12,12 +12,12 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         _paymentRepository = paymentRepository;
     }
     
-    public async Task<bool> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
     {
         var payment = await _paymentRepository.GetByIdAsync(request.Id);
         if (payment == null)
         {
-            return false;
+            throw new Exception("Payment not found");
         }
         
         if(request.PaymentMethod is not null) payment.PaymentMethod = request.PaymentMethod;
@@ -27,7 +27,5 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
 
         _paymentRepository.Update(payment);
         await _paymentRepository.SaveChangesAsync();
-        
-        return true;
     }
 }

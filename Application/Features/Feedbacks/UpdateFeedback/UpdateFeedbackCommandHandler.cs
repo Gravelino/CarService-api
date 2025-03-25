@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Feedbacks.UpdateFeedback;
 
-public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackCommand, bool>
+public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackCommand>
 {
     private readonly IFeedbackRepository _feedbackRepository;
 
@@ -12,12 +12,12 @@ public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackComman
         _feedbackRepository = feedbackRepository;
     }
     
-    public async Task<bool> Handle(UpdateFeedbackCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateFeedbackCommand request, CancellationToken cancellationToken)
     {
         var feedback = await _feedbackRepository.GetByIdAsync(request.Id);
         if (feedback == null)
         {
-            return false;
+            throw new Exception("Feedback not found");
         }
         
         if(request.Rating is not null) feedback.Rating = (int)request.Rating;
@@ -25,7 +25,5 @@ public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackComman
 
         _feedbackRepository.Update(feedback);
         await _feedbackRepository.SaveChangesAsync();
-        
-        return true;
     }
 }

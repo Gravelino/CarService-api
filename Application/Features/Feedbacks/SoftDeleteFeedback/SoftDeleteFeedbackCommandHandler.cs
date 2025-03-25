@@ -3,7 +3,7 @@ using Persistence.Repositories.Interfaces;
 
 namespace Application.Features.Feedbacks.SoftDeleteFeedback;
 
-public class SoftDeleteFeedbackCommandHandler : IRequestHandler<SoftDeleteFeedbackCommand, bool>
+public class SoftDeleteFeedbackCommandHandler : IRequestHandler<SoftDeleteFeedbackCommand>
 {
     private readonly IFeedbackRepository _feedbackRepository;
 
@@ -12,16 +12,14 @@ public class SoftDeleteFeedbackCommandHandler : IRequestHandler<SoftDeleteFeedba
         _feedbackRepository = feedbackRepository;
     }
     
-    public async Task<bool> Handle(SoftDeleteFeedbackCommand request, CancellationToken cancellationToken)
+    public async Task Handle(SoftDeleteFeedbackCommand request, CancellationToken cancellationToken)
     {
         var feedback = await _feedbackRepository.GetByIdAsync(request.Id);
         if (feedback == null)
         {
-            return false;
+            throw new Exception("Feedback not found");
         }
         
         await _feedbackRepository.SoftDeleteAsync(feedback.Id);
-        
-        return true;
     }
 }
