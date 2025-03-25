@@ -11,6 +11,11 @@ public class CustomerRepository : SoftDeletableRepository<Customer>, ICustomerRe
     {
     }
 
+    public override Task AddAsync(Customer customer)
+    {
+        
+    }
+
     public async Task<Customer?> GetCustomerWithCarsByIdAsync(int customerId)
     {
         return await _dbSet

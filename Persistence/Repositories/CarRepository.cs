@@ -11,6 +11,11 @@ public class CarRepository : SoftDeletableRepository<Car>, ICarRepository
     {
     }
 
+    public override Task AddAsync(Car car)
+    {
+        
+    }
+
     public async Task<IEnumerable<Car>> GetCarsByCustomerIdAsync(int customerId)
     {
         return await _dbSet

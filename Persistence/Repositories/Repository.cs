@@ -15,11 +15,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         _dbSet = context.Set<TEntity>();
     }
     
-    public virtual  async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
 
-    public virtual  async Task<TEntity?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+    public virtual async Task<TEntity?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
     
-    public async Task AddAsync(TEntity entity) => await _dbSet.AddAsync(entity);
+    public virtual async Task AddAsync(TEntity entity) => await _dbSet.AddAsync(entity);
 
     public void Update(TEntity entity) => _dbSet.Update(entity);
 
