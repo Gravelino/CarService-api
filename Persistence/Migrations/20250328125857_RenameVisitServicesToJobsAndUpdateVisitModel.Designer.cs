@@ -12,7 +12,7 @@ using Persistence.Data;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    [Migration("20250328121059_RenameVisitServicesToJobsAndUpdateVisitModel")]
+    [Migration("20250328125857_RenameVisitServicesToJobsAndUpdateVisitModel")]
     partial class RenameVisitServicesToJobsAndUpdateVisitModel
     {
         /// <inheritdoc />
@@ -138,6 +138,35 @@ namespace Persistence.Migrations
                     b.ToTable("Feedbacks");
                 });
 
+            modelBuilder.Entity("Application.Models.Job", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VisitId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("VisitId");
+
+                    b.ToTable("Jobs");
+                });
+
             modelBuilder.Entity("Application.Models.JobSchedule", b =>
                 {
                     b.Property<int>("Id")
@@ -165,35 +194,6 @@ namespace Persistence.Migrations
                     b.HasIndex("WorkerId");
 
                     b.ToTable("JobSchedules");
-                });
-
-            modelBuilder.Entity("Application.Models.Jobs", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VisitId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
-
-                    b.HasIndex("VisitId");
-
-                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("Application.Models.Payment", b =>
@@ -490,26 +490,7 @@ namespace Persistence.Migrations
                     b.Navigation("Visit");
                 });
 
-            modelBuilder.Entity("Application.Models.JobSchedule", b =>
-                {
-                    b.HasOne("Application.Models.Jobs", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Application.Models.Worker", "Worker")
-                        .WithMany("JobSchedules")
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Job");
-
-                    b.Navigation("Worker");
-                });
-
-            modelBuilder.Entity("Application.Models.Jobs", b =>
+            modelBuilder.Entity("Application.Models.Job", b =>
                 {
                     b.HasOne("Application.Models.Service", "Service")
                         .WithMany("Jobs")
@@ -526,6 +507,25 @@ namespace Persistence.Migrations
                     b.Navigation("Service");
 
                     b.Navigation("Visit");
+                });
+
+            modelBuilder.Entity("Application.Models.JobSchedule", b =>
+                {
+                    b.HasOne("Application.Models.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Application.Models.Worker", "Worker")
+                        .WithMany("JobSchedules")
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("Worker");
                 });
 
             modelBuilder.Entity("Application.Models.Payment", b =>
