@@ -15,8 +15,8 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
     public async Task<Worker?> GetWorkerWithScheduledVisitsByIdAsync(int workerId)
     {
         var worker = await _dbSet
-            .Include(w => w.VisitServiceSchedules)
-            .ThenInclude(vss => vss.VisitService)
+            .Include(w => w.JobSchedules)
+            .ThenInclude(vss => vss.Job)
             .ThenInclude(vs => vs.Visit.DeletedAt == null)
             .FirstOrDefaultAsync(m => m.Id == workerId && m.DeletedAt == null);
 

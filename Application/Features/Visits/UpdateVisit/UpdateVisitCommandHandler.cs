@@ -24,7 +24,6 @@ public class UpdateVisitCommandHandler : IRequestHandler<UpdateVisitCommand>
         
         if(request.VisitStartDate is not null) visit.VisitStartDate = (DateTime)request.VisitStartDate;
         if(request.VisitEndDate is not null) visit.VisitEndDate = (DateTime)request.VisitEndDate;
-        if(request.CompletionDate is not null) visit.CompletionDate = (DateTime)request.CompletionDate;
         if(request.Status is not null) visit.Status = request.Status;
         if(request.TotalPrice is not null) visit.TotalPrice = (decimal)request.TotalPrice;
         if(request.CustomerId is not null) visit.CustomerId = (int)request.CustomerId;

@@ -22,7 +22,7 @@ public class FeedbackRepository : SoftDeletableRepository<Feedback>, IFeedbackRe
     public async Task<double> GetAverageRatingForServiceAsync(int serviceId)
     {
         return await _context.Feedbacks
-            .Where(f => f.Visit != null && f.Visit.VisitServices.Any(vs => vs.ServiceId == serviceId))
+            .Where(f => f.Visit != null && f.Visit.Jobs.Any(vs => vs.ServiceId == serviceId))
             .AverageAsync(f => f.Rating);
     }
 }

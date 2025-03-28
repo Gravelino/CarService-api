@@ -13,6 +13,6 @@ public class Worker : ISoftDeletable
     public bool IsActive { get; set; }
     public DateTime? DeletedAt { get; set; }
     
-    public ICollection<VisitServiceSchedule>? VisitServiceSchedules { get; set; }
+    public ICollection<JobSchedule>? JobSchedules { get; set; }
     public ICollection<WorkerService>? WorkerServices { get; set; }
 }

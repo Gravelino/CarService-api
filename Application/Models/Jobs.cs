@@ -1,6 +1,6 @@
 namespace Application.Models;
 
-public class VisitService
+public class Jobs
 {
     public int Id { get; set; }
     public int Quantity { get; set; }

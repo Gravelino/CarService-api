@@ -21,7 +21,7 @@ public class ServiceRepository : SoftDeletableRepository<Service>, IServiceRepos
 
     public async Task<IEnumerable<Service>> GetMostPopularServicesAsync(int limit)
     {
-        return await _context.VisitServices
+        return await _context.Jobs
             .Where(vs => vs.Service.DeletedAt == null)
             .GroupBy(vs => vs.ServiceId)
             .Select(g => new { ServiceId = g.Key, Count = g.Count() })

@@ -15,7 +15,7 @@ public class VisitRepository: SoftDeletableRepository<Visit>, IVisitRepository
     public async Task<Visit?> GetVisitWithServicesAndWorkersByIdAsync(int visitId)
     {
         var visit = await _dbSet
-            .Include(v => v.VisitServices)
+            .Include(v => v.Jobs)
             .ThenInclude(vs => vs.Service)
             .ThenInclude(s => s.WorkerServices)
             .ThenInclude(ws => ws.Worker)

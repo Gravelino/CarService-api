@@ -20,7 +20,6 @@ public class CreateVisitCommandHandler : IRequestHandler<CreateVisitCommand, int
         {
             VisitStartDate = request.VisitStartDate,
             VisitEndDate = request.VisitEndDate,
-            CompletionDate = request.CompletionDate,
             Status = request.Status,
             TotalPrice = request.TotalPrice,
             CustomerId = request.CustomerId,
