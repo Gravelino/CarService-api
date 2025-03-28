@@ -7,7 +7,7 @@ public class JobSchedule
     public DateTime EndDate { get; set; }
     
     public int JobId { get; set; }
-    public Jobs? Job { get; set; }
+    public Job? Job { get; set; }
     
     public int WorkerId { get; set; }
     public Worker? Worker { get; set; }

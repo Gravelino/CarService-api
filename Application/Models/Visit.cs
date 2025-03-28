@@ -17,6 +17,6 @@ public class Visit : ISoftDeletable
     public Car? Car { get; set; }
     
     public ICollection<Payment>? Payments { get; set; }
-    public ICollection<Jobs>? Jobs { get; set; }
+    public ICollection<Job>? Jobs { get; set; }
     public ICollection<Feedback>? Feedbacks { get; set; }
 }
