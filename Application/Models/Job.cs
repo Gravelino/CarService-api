@@ -9,7 +9,10 @@ public class Job : ISoftDeletable
     public int VisitId { get; set; }
     public Visit? Visit { get; set; }
     
-     public int ServiceId { get; set; }
+    public int ServiceId { get; set; }
     public Service? Service { get; set; }
+    
+    public int JobScheduleId { get; set; }
+    public JobSchedule? JobSchedule { get; set; }
     public DateTime? DeletedAt { get; set; }
 }

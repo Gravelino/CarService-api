@@ -143,11 +143,14 @@ namespace Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("JobScheduleId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("integer");
@@ -186,7 +189,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobId");
+                    b.HasIndex("JobId")
+                        .IsUnique();
 
                     b.HasIndex("WorkerId");
 
@@ -278,6 +282,9 @@ namespace Persistence.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -509,8 +516,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Application.Models.JobSchedule", b =>
                 {
                     b.HasOne("Application.Models.Job", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
+                        .WithOne("JobSchedule")
+                        .HasForeignKey("Application.Models.JobSchedule", "JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -621,6 +628,11 @@ namespace Persistence.Migrations
                     b.Navigation("Cars");
 
                     b.Navigation("Visits");
+                });
+
+            modelBuilder.Entity("Application.Models.Job", b =>
+                {
+                    b.Navigation("JobSchedule");
                 });
 
             modelBuilder.Entity("Application.Models.Service", b =>
