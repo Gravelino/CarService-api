@@ -12,9 +12,9 @@ public class SoftDeletableRepository<TEntity> : Repository<TEntity>,
     public SoftDeletableRepository(CarServiceDbContext context) :
         base(context) { }
 
-    public override async Task<IEnumerable<TEntity>> GetAllAsync()
+    public override IQueryable<TEntity> GetAllAsync()
     {
-        return await _dbSet.Where(e => e.DeletedAt == null).ToListAsync();
+        return _dbSet.AsQueryable().Where(e => e.DeletedAt == null);
     }
 
     public override async Task<TEntity?> GetByIdAsync(int id)

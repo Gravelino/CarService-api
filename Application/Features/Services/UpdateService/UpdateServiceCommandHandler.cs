@@ -20,13 +20,13 @@ public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand>
             throw new Exception("Service not found");
         }
         
-        if(request.BasePrice is not null) service.BasePrice = (decimal)request.BasePrice;
+        if(request.BasePrice.HasValue) service.BasePrice = request.BasePrice.Value;
         if(request.Description is not null) service.Description = request.Description;
-        if(request.Duration is not null) service.Duration = (int)request.Duration;
+        if(request.Duration.HasValue) service.Duration = request.Duration.Value;
         if(request.ServiceName is not null) service.ServiceName = request.ServiceName;
-        if(request.ServiceCategoryId is not null) service.ServiceCategoryId = (int)request.ServiceCategoryId;
+        if(request.ServiceCategoryId.HasValue) service.ServiceCategoryId = request.ServiceCategoryId.Value;
         
-        _serviceRepository.Update(service);
+        await _serviceRepository.Update(service);
         await _serviceRepository.SaveChangesAsync();
     }
 }

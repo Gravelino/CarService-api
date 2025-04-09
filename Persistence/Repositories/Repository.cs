@@ -14,8 +14,8 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         _context = context;
         _dbSet = context.Set<TEntity>();
     }
-    
-    public virtual  async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+
+    public virtual IQueryable<TEntity> GetAllAsync() => _dbSet.AsQueryable();
 
     public virtual  async Task<TEntity?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
     

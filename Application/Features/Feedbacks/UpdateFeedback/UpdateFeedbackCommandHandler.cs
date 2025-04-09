@@ -20,10 +20,10 @@ public class UpdateFeedbackCommandHandler : IRequestHandler<UpdateFeedbackComman
             throw new Exception("Feedback not found");
         }
         
-        if(request.Rating is not null) feedback.Rating = (int)request.Rating;
+        if(request.Rating.HasValue) feedback.Rating = request.Rating.Value;
         if(request.Comment is not null) feedback.Comment = request.Comment;
 
-        _feedbackRepository.Update(feedback);
+        await _feedbackRepository.Update(feedback);
         await _feedbackRepository.SaveChangesAsync();
     }
 }

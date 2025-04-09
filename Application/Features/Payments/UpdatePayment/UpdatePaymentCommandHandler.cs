@@ -22,10 +22,10 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand>
         
         if(request.PaymentMethod is not null) payment.PaymentMethod = request.PaymentMethod;
         if(request.Status is not null) payment.Status = request.Status;
-        if(request.Amount is not null) payment.Amount = (decimal)request.Amount;
+        if(request.Amount.HasValue) payment.Amount = request.Amount.Value;
         if(request.Currency is not null) payment.Currency = request.Currency;
 
-        _paymentRepository.Update(payment);
+        await _paymentRepository.Update(payment);
         await _paymentRepository.SaveChangesAsync();
     }
 }

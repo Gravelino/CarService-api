@@ -22,10 +22,10 @@ public class UpdateToolCommandHandler : IRequestHandler<UpdateToolCommand>
         }
         
         if(request.Description is not null) service.Description = request.Description;
-        if(request.SerialNumber is not null) service.SerialNumber = (int)request.SerialNumber;
+        if(request.SerialNumber.HasValue) service.SerialNumber = request.SerialNumber.Value;
         if(request.Name is not null) service.Name = request.Name;
         
-        _toolRepository.Update(service);
+        await _toolRepository.Update(service);
         await _toolRepository.SaveChangesAsync();
     }
 }

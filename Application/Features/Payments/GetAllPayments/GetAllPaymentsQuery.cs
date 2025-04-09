@@ -3,7 +3,11 @@ using MediatR;
 
 namespace Application.Features.Payments.GetAllPayments;
 
-public class GetAllPaymentsQuery : IRequest<IEnumerable<Payment>>
+public class GetAllPaymentsQuery : IRequest<PagedResult<Payment>>
 {
-    
+    public int Page { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+    public string? SortField { get; set; }
+    public string? SortOrder { get; set; }
+    public string? NameFilter { get; set; }
 }

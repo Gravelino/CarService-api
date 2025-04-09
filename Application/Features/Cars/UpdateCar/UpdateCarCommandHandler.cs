@@ -24,10 +24,10 @@ public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand>
         if (request.Model is not null) car.Model = request.Model;
         if (request.LicensePlate is not null) car.LicensePlate = request.LicensePlate;
         if (request.Color is not null) car.Color = request.Color;
-        if(request.Year is not null) car.Year = (int)request.Year;
-        if(request.CustomerId is not null) car.CustomerId = (int)request.CustomerId;
+        if(request.Year.HasValue) car.Year = request.Year.Value;
+        if(request.CustomerId.HasValue) car.CustomerId = request.CustomerId.Value;
 
-        _carRepository.Update(car);
+        await _carRepository.Update(car);
         await _carRepository.SaveChangesAsync();
     }
 }
