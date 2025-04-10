@@ -1,6 +1,6 @@
 namespace Application.Models;
 
-public class JobSchedule
+public class JobSchedule: ISoftDeletable
 {
     public int Id { get; set; }
     public DateTime StartDate { get; set; }
@@ -11,4 +11,5 @@ public class JobSchedule
     
     public int WorkerId { get; set; }
     public Worker? Worker { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }
