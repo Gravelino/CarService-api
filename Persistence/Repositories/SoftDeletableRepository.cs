@@ -22,7 +22,7 @@ public class SoftDeletableRepository<TEntity> : Repository<TEntity>,
         return await _dbSet.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id && e.DeletedAt == null);
     } 
 
-    public async Task SoftDeleteAsync(int id)
+    public virtual async Task SoftDeleteAsync(int id)
     {
         var entity = await GetByIdAsync(id);
         if (entity == null)
@@ -34,7 +34,7 @@ public class SoftDeletableRepository<TEntity> : Repository<TEntity>,
         await _context.SaveChangesAsync();
     }
 
-    public async Task RestoreAsync(int id)
+    public virtual async Task RestoreAsync(int id)
     {
         var entity = await GetByIdAsync(id);
         if (entity == null)

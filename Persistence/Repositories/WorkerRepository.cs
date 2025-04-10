@@ -29,4 +29,15 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
             .Where(m => m.DeletedAt == null && !m.IsActive)
             .ToListAsync();
     }
+
+    public async Task<bool> IsWorkerAvailableByIdAsync(int workerId, DateTime proposedStart, DateTime proposedEnd)
+    {
+        var hasConflict = await _context.JobSchedules.AnyAsync(schedule =>
+            schedule.WorkerId == workerId &&
+            proposedStart < schedule.EndDate &&
+            proposedEnd > schedule.StartDate
+        );
+        
+        return !hasConflict;
+    }
 }
