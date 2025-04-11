@@ -1,6 +1,7 @@
 using Application.Features.Workers.CreateWorker;
 using Application.Features.Workers.GetAllWorkers;
 using Application.Features.Workers.GetAvailableWorkers;
+using Application.Features.Workers.GetIfWorkerAvailableForJob;
 using Application.Features.Workers.GetWorkerById;
 using Application.Features.Workers.GetWorkerWithScheduledVisitsById;
 using Application.Features.Workers.RestoreWorker;
@@ -107,5 +108,12 @@ public class WorkersController : Controller
             return NotFound();
 
         return Ok(new {data = worker });
+    }
+
+    [HttpGet("get-if-available-for-job/{workerId:int}")]
+    public async Task<IActionResult> GetIfAvailableForJob(int workerId, DateTime startDate, DateTime endDate)
+    {
+        var isAvailable = await _mediator.Send(new GetIfWorkerAvailableForJobQuery(workerId, startDate, endDate));
+        return Ok(isAvailable);
     }
 }
