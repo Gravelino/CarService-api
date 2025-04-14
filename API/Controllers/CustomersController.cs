@@ -26,26 +26,27 @@ public class CustomersController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllCustomers(
         [FromQuery] int page = 1,
-        [FromQuery] int perPage = 10,
-        [FromQuery] string sort = "Id",
-        [FromQuery] string order = "ASC",
-        [FromQuery] string? nameLike = null)
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string sortField = "Id",
+        [FromQuery] string sortOrder = "ASC",
+        [FromQuery] string? nameLike = null,
+        [FromQuery] string? email = null,
+        [FromQuery] string? phone = null)
     {
         var query = new GetAllCustomersQuery
         {
             Page = page,
-            PageSize = perPage,
-            SortField = sort,
-            SortOrder = order,
-            NameFilter = nameLike,
+            PageSize = pageSize,
+            SortField = sortField,
+            SortOrder = sortOrder,
+            NameLike = nameLike,
+            Email = email,
+            Phone = phone
         };
-        
+    
         var result = await _mediator.Send(query);
-        
-        //Response.Headers.Add("Content-Range", $"customers {0}-{0 + customers.Count() - 1}/{customers.Count()}");
-        //Response.Headers.Add("Access-Control-Expose-Headers", "Content-Range");
-        
-        return Ok(new { data = result.Items, total = result.TotalCount});
+    
+        return Ok(new { data = result.Items, total = result.TotalCount });
     }
 
     [HttpGet("{id:int}")]
@@ -69,12 +70,14 @@ public class CustomersController : Controller
     public async Task<IActionResult> UpdateCustomer(int id, 
         [FromBody] UpdateCustomerCommand command)
     {
-        if(id != command.Id)
+        if (id != command.Id)
             return BadRequest();
-        
-        await _mediator.Send(command);
-        return NoContent();
+
+        var updatedCustomer = await _mediator.Send(command);
+
+        return Ok(new { data = updatedCustomer });
     }
+
 
     [HttpPut("{id:int}/softDelete")]
     public async Task<IActionResult> DeleteCustomer(int id)

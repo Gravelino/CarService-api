@@ -1,9 +1,11 @@
+using Application.DTOs;
 using Application.Interfaces;
+using Application.Models;
 using MediatR;
 
 namespace Application.Features.Customers.UpdateCustomer;
 
-public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand>
+public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, CustomerDto>
 {
     private readonly ICustomerRepository _customerRepository;
 
@@ -12,7 +14,7 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
         _customerRepository = customerRepository;
     }
     
-    public async Task Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<CustomerDto> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetByIdAsync(request.Id);
         if (customer == null)
@@ -27,5 +29,14 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
 
         await _customerRepository.Update(customer);
         await _customerRepository.SaveChangesAsync();
+        
+        return new CustomerDto
+        {
+            Id = customer.Id,
+            FirstName = customer.FirstName,
+            LastName = customer.LastName,
+            Phone = customer.Phone,
+            Email = customer.Email
+        };
     }
 }
