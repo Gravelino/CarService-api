@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\API",
+    "\\Application",
+    "\\Persistence",
+    "\\Persistence\\Repositories"
+  ],
+  "SelectedNode": "\\API\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}

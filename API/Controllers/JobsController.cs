@@ -23,6 +23,7 @@ public class JobsController : Controller
         _mediator = mediator;
     }
 
+    [HttpGet]
     public async Task<IActionResult> GetAllJobs(
         [FromQuery] int page = 1,
         [FromQuery] int perPage = 10,

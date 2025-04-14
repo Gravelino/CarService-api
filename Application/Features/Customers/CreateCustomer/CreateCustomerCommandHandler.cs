@@ -21,7 +21,6 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             LastName = request.LastName,
             Email = request.Email,
             Phone = request.Phone,
-            Address = request.Address,
             RegistrationDate = DateTime.UtcNow
         };
         

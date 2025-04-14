@@ -24,7 +24,6 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
         if(request.LastName is not null) customer.LastName = request.LastName;
         if(request.Phone is not null) customer.Phone = request.Phone;
         if(request.Email is not null) customer.Email = request.Email;
-        if(request.Address is not null) customer.Address = request.Address;
 
         await _customerRepository.Update(customer);
         await _customerRepository.SaveChangesAsync();
