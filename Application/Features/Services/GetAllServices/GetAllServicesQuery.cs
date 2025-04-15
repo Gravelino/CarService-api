@@ -10,4 +10,6 @@ public class GetAllServicesQuery : IRequest<PagedResult<Service>>
     public string? SortField { get; set; }
     public string? SortOrder { get; set; }
     public string? NameFilter { get; set; }
+    public string? DescriptionFilter { get; set; }
+
 }

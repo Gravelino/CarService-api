@@ -10,4 +10,5 @@ public class GetAllServiceCategoriesQuery : IRequest<PagedResult<ServiceCategory
     public string? SortField { get; set; }
     public string? SortOrder { get; set; }
     public string? NameFilter { get; set; }
+    public string? DescriptionFilter { get; set; }
 }

@@ -23,26 +23,32 @@ public class ServiceCategoriesController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllServiceCategories(
         [FromQuery] int page = 1,
-        [FromQuery] int perPage = 10,
+        [FromQuery] int pageSize = 10,
         [FromQuery] string sort = "Id",
         [FromQuery] string order = "ASC",
-        [FromQuery] string? nameLike = null)
+        [FromQuery] string? nameLike = null,
+        [FromQuery] string? descriptionLike = null)
     {
-        var query = new GetAllServiceCategoriesQuery
+        try
         {
-            Page = page,
-            PageSize = perPage,
-            SortField = sort,
-            SortOrder = order,
-            NameFilter = nameLike,
-        };
+            var query = new GetAllServiceCategoriesQuery
+            {
+                Page = page,
+                PageSize = pageSize,
+                SortField = sort,
+                SortOrder = order,
+                NameFilter = nameLike,
+                DescriptionFilter = descriptionLike
+            };
         
-        var result = await _mediator.Send(query);
+            var result = await _mediator.Send(query);
         
-        //Response.Headers.Add("Content-Range", $"customers {0}-{0 + customers.Count() - 1}/{customers.Count()}");
-        //Response.Headers.Add("Access-Control-Expose-Headers", "Content-Range");
-        
-        return Ok(new { data = result.Items, total = result.TotalCount});
+            return Ok(new { data = result.Items, total = result.TotalCount});
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpGet("{id:int}")]
