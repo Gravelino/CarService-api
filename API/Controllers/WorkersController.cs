@@ -29,7 +29,11 @@ public class WorkersController : Controller
         [FromQuery] int perPage = 10,
         [FromQuery] string sort = "Id",
         [FromQuery] string order = "ASC",
-        [FromQuery] string? nameLike = null)
+        [FromQuery] string? nameLike = null,
+        [FromQuery] string? specialization = null,
+        [FromQuery] bool? isActive = null,
+        [FromQuery] string? email = null,
+        [FromQuery] string? phone = null)
     {
         var query = new GetAllWorkersQuery
         {
@@ -38,12 +42,13 @@ public class WorkersController : Controller
             SortField = sort,
             SortOrder = order,
             NameFilter = nameLike,
+            SpecializationFilter = specialization,
+            IsActiveFilter = isActive,
+            Email = email,
+            Phone = phone
         };
         
         var result = await _mediator.Send(query);
-        
-        //Response.Headers.Add("Content-Range", $"customers {0}-{0 + customers.Count() - 1}/{customers.Count()}");
-        //Response.Headers.Add("Access-Control-Expose-Headers", "Content-Range");
         
         return Ok(new { data = result.Items, total = result.TotalCount});
     }

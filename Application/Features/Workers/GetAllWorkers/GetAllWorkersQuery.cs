@@ -10,4 +10,8 @@ public class GetAllWorkersQuery : IRequest<PagedResult<Worker>>
     public string? SortField { get; set; }
     public string? SortOrder { get; set; }
     public string? NameFilter { get; set; }
+    public string? SpecializationFilter { get; set; }
+    public bool? IsActiveFilter { get; set; }
+    public string? Email { get; set; }
+    public string? Phone { get; set; }
 }
