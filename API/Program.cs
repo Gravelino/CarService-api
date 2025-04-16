@@ -28,6 +28,7 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IServiceCategoryRepository, ServiceCategoryRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IJobScheduleRepository, JobScheduleRepository>();
+builder.Services.AddScoped<IServiceToolRepository, ServiceToolRepository>();
 
 builder.Services.AddCors(options =>
 {

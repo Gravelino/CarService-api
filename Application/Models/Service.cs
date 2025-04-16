@@ -14,4 +14,5 @@ public class Service: ISoftDeletable
     public ICollection<Tool>? Tools { get; set; }
     public ICollection<WorkerService>? WorkerServices { get; set; }
     public ICollection<Job>? Jobs { get; set; }
+    public ICollection<ServiceTool> ServiceTools { get; set; }
 }

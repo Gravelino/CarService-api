@@ -22,6 +22,11 @@ public class GetAllToolsQueryHandler : IRequestHandler<GetAllToolsQuery, PagedRe
         {
             query = query.Where(e => e.Name.Contains(request.NameFilter));
         }
+        
+        if (!string.IsNullOrEmpty(request.DescriptionFilter))
+        {
+            query = query.Where(e => e.Description.Contains(request.DescriptionFilter));
+        }
 
         if (!string.IsNullOrEmpty(request.SortField))
         {

@@ -28,7 +28,8 @@ public class ToolsController : Controller
         [FromQuery] int perPage = 10,
         [FromQuery] string sort = "Id",
         [FromQuery] string order = "ASC",
-        [FromQuery] string? nameLike = null)
+        [FromQuery] string? nameLike = null,
+        [FromQuery] string? descriptionLike = null)
     {
         var query = new GetAllToolsQuery
         {
@@ -37,6 +38,7 @@ public class ToolsController : Controller
             SortField = sort,
             SortOrder = order,
             NameFilter = nameLike,
+            DescriptionFilter = descriptionLike
         };
         
         var result = await _mediator.Send(query);

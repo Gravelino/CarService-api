@@ -23,6 +23,7 @@ public class CarServiceDbContext :DbContext
     public DbSet<Feedback> Feedbacks { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<ServiceTool> ServiceTools { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,19 @@ public class CarServiceDbContext :DbContext
             .HasOne(j => j.JobSchedule)
             .WithOne(js => js.Job)
             .HasForeignKey<JobSchedule>(js => js.JobId);
+
+        modelBuilder.Entity<ServiceTool>()
+            .HasKey(st => new { st.ServicesId, st.ToolsId });
+        
+        modelBuilder.Entity<ServiceTool>()
+            .HasOne(st => st.Service)
+            .WithMany(s => s.ServiceTools)
+            .HasForeignKey(st => st.ServicesId);
+        
+        modelBuilder.Entity<ServiceTool>()
+            .HasOne(st => st.Tool)
+            .WithMany(t => t.ServiceTools)
+            .HasForeignKey(st => st.ToolsId);
     }
 
         

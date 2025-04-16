@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Data;
@@ -11,9 +12,11 @@ using Persistence.Data;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(CarServiceDbContext))]
-    partial class CarServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250416133103_AddServiceTools")]
+    partial class AddServiceTools
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,18 +301,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Application.Models.ServiceTool", b =>
                 {
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("ServicesId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ToolsId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("ServicesId", "ToolsId");
-
-                    b.HasIndex("ToolsId");
 
                     b.ToTable("ServiceTools");
                 });
@@ -581,25 +580,6 @@ namespace Persistence.Migrations
                     b.Navigation("ServiceCategory");
                 });
 
-            modelBuilder.Entity("Application.Models.ServiceTool", b =>
-                {
-                    b.HasOne("Application.Models.Service", "Service")
-                        .WithMany("ServiceTools")
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Application.Models.Tool", "Tool")
-                        .WithMany("ServiceTools")
-                        .HasForeignKey("ToolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Service");
-
-                    b.Navigation("Tool");
-                });
-
             modelBuilder.Entity("Application.Models.Transaction", b =>
                 {
                     b.HasOne("Application.Models.Payment", "Payment")
@@ -685,19 +665,12 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Jobs");
 
-                    b.Navigation("ServiceTools");
-
                     b.Navigation("WorkerServices");
                 });
 
             modelBuilder.Entity("Application.Models.ServiceCategory", b =>
                 {
                     b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("Application.Models.Tool", b =>
-                {
-                    b.Navigation("ServiceTools");
                 });
 
             modelBuilder.Entity("Application.Models.Visit", b =>

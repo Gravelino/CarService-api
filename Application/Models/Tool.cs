@@ -8,4 +8,6 @@ public class Tool : ISoftDeletable
     public int SerialNumber { get; set; }
     public DateTime? DeletedAt { get; set; }
     public ICollection<Service> Services { get; set; }
+    public ICollection<ServiceTool> ServiceTools { get; set; }
+
 }
