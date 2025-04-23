@@ -83,7 +83,10 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         return freeSlots;
     }
 
-    public async Task<IEnumerable<AvailableSlotDto>> FindAvailableSlotsForService(int serviceId, DateTime startDate, DateTime endDate)
+    public async Task<IEnumerable<AvailableSlotDto>> FindAvailableSlotsForService(
+        int serviceId,
+        DateTime startDate,
+        DateTime endDate)
     {
         var service = await _context.Services.FindAsync(serviceId);
         if (service is null)
