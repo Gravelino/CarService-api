@@ -15,7 +15,7 @@ public class CarServiceDbContext :DbContext
     public DbSet<Visit> Visits { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<ServiceCategory> ServiceCategories { get; set; }
-    public DbSet<Worker> Worker { get; set; }
+    public DbSet<Worker> Workers { get; set; }
     public DbSet<WorkerService> WorkerServices { get; set; }
     public DbSet<Tool> Tools { get; set; }
     public DbSet<Job> Jobs { get; set; }
