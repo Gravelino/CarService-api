@@ -1,6 +1,7 @@
 using Application.Features.Workers.CreateWorker;
 using Application.Features.Workers.GetAllWorkers;
 using Application.Features.Workers.GetAvailableWorkers;
+using Application.Features.Workers.GetFreeTimeSlotsForJobByServiceId;
 using Application.Features.Workers.GetIfWorkerAvailableForJob;
 using Application.Features.Workers.GetWorkerById;
 using Application.Features.Workers.GetWorkerWithScheduledVisitsById;
@@ -120,5 +121,12 @@ public class WorkersController : Controller
     {
         var isAvailable = await _mediator.Send(new GetIfWorkerAvailableForJobQuery(workerId, startDate, endDate));
         return Ok(isAvailable);
+    }
+
+    [HttpGet("get-available-time-slots-for-job/{serviceId:int}")]
+    public async Task<IActionResult> GetAvailableTimeSlotsForJob(int serviceId, DateTime startDate, DateTime endDate)
+    {
+        var slots = await _mediator.Send(new GetFreeTimeSlotsForJobByServiceIdQuery(serviceId, startDate, endDate));
+        return Ok(slots);
     }
 }
