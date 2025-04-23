@@ -39,7 +39,7 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         return !hasConflict;
     }
 
-    private async Task<IEnumerable<AvailableSlotDto>> FindFreeTimeSlots(
+    private List<AvailableSlotDto> FindFreeTimeSlots(
         List<AvailableSlotDto> busySlots,
         TimeSpan jobDuration,
         DateTime dayStart,
@@ -48,7 +48,7 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         string workerName)
     {
         var freeSlots = new List<AvailableSlotDto>();
-        DateTime currentTime = dayStart;
+        var currentTime = dayStart;
 
         foreach (var slot in busySlots)
         {
@@ -94,7 +94,7 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
             throw new KeyNotFoundException("Service not found");
         }
         
-        TimeSpan jobDuration = TimeSpan.FromMinutes(service.Duration);
+        var jobDuration = TimeSpan.FromMinutes(service.Duration);
         
         var workerIds = await _context.WorkerServices
             .Where(ws => ws.ServiceId == serviceId)
@@ -116,20 +116,20 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
                 .Select(js => new AvailableSlotDto { Start = js.StartDate, End = js.EndDate, WorkerId = workerId })
                 .ToListAsync();
             
-            DateTime currentDate = startDate.Date;
-            DateTime endDateDay = endDate.Date;
+            var currentDate = startDate.Date;
+            var endDateDay = endDate.Date;
 
             while (currentDate <= endDateDay)
             {
-                DateTime dayStart = currentDate.AddHours(9);
-                DateTime dayEnd = currentDate.AddHours(18);
+                var dayStart = currentDate.AddHours(9);
+                var dayEnd = currentDate.AddHours(18);
 
                 var dayBusySlots = busySlots
                     .Where(s => s.Start.Date == currentDate.Date && s.End.Date == currentDate.Date)
                     .OrderBy(s => s.Start)
                     .ToList();
                 
-                var dayFreeSlots = await FindFreeTimeSlots(dayBusySlots, jobDuration, dayStart, dayEnd,
+                var dayFreeSlots = FindFreeTimeSlots(dayBusySlots, jobDuration, dayStart, dayEnd,
                     workerId, $"{worker.FirstName} {worker.LastName}");
                 
                 freeSlots.AddRange(dayFreeSlots);
