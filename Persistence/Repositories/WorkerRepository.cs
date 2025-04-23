@@ -52,18 +52,15 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
 
         foreach (var slot in busySlots)
         {
-            if (slot.Start > currentTime)
+            if (slot.Start > currentTime && slot.End - slot.Start >= jobDuration)
             {
-                if (slot.End - slot.Start >= jobDuration)
+                freeSlots.Add(new AvailableSlotDto
                 {
-                    freeSlots.Add(new AvailableSlotDto
-                    {
-                        Start = slot.Start,
-                        End = slot.End,
-                        WorkerId = workerId,
-                        WorkerName = workerName,
-                    });
-                }
+                    Start = slot.Start,
+                    End = slot.End,
+                    WorkerId = workerId,
+                    WorkerName = workerName,
+                });
             }
 
             currentTime = slot.End > currentTime ? slot.End : currentTime;
@@ -83,6 +80,34 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         return freeSlots;
     }
 
+    private async Task<List<AvailableSlotDto>> GetBusySlotsByWorkerId(int workerId, DateTime startDate, DateTime endDate)
+    {
+        return await _context.JobSchedules
+            .Where(js => js.WorkerId == workerId &&
+                         js.DeletedAt == null &&
+                         js.StartDate < endDate &&
+                         js.EndDate > startDate)
+            .OrderBy(js => js.StartDate)
+            .Select(js => new AvailableSlotDto { Start = js.StartDate, End = js.EndDate, WorkerId = workerId })
+            .ToListAsync();
+    }
+    
+    private List<AvailableSlotDto> GetBusySlotsByDate(List<AvailableSlotDto> busySlots, DateTime date)
+    {
+        return busySlots
+            .Where(s => s.Start.Date == date.Date && s.End.Date == date.Date)
+            .OrderBy(s => s.Start)
+            .ToList();
+    }
+
+    private async Task<List<int>> GetWorkerIdsByServiceId(int serviceId)
+    {
+        return await _context.WorkerServices
+            .Where(ws => ws.ServiceId == serviceId)
+            .Select(ws => ws.WorkerId)
+            .ToListAsync();
+    }
+    
     public async Task<IEnumerable<AvailableSlotDto>> FindAvailableSlotsForService(
         int serviceId,
         DateTime startDate,
@@ -95,26 +120,14 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         }
         
         var jobDuration = TimeSpan.FromMinutes(service.Duration);
-        
-        var workerIds = await _context.WorkerServices
-            .Where(ws => ws.ServiceId == serviceId)
-            .Select(ws => ws.WorkerId)
-            .ToListAsync();
-        
+        var workerIds = await GetWorkerIdsByServiceId(serviceId);
         var freeSlots = new List<AvailableSlotDto>();
 
         foreach (var workerId in workerIds)
         {
             var worker = await _context.Workers.FindAsync(workerId);
-            
-            var busySlots = await _context.JobSchedules
-                .Where(js => js.WorkerId == workerId &&
-                             js.DeletedAt == null &&
-                             js.StartDate < endDate &&
-                             js.EndDate > startDate)
-                .OrderBy(js => js.StartDate)
-                .Select(js => new AvailableSlotDto { Start = js.StartDate, End = js.EndDate, WorkerId = workerId })
-                .ToListAsync();
+
+            var busySlots = await GetBusySlotsByWorkerId(workerId, startDate, endDate);
             
             var currentDate = startDate.Date;
             var endDateDay = endDate.Date;
@@ -124,10 +137,7 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
                 var dayStart = currentDate.AddHours(9);
                 var dayEnd = currentDate.AddHours(18);
 
-                var dayBusySlots = busySlots
-                    .Where(s => s.Start.Date == currentDate.Date && s.End.Date == currentDate.Date)
-                    .OrderBy(s => s.Start)
-                    .ToList();
+                var dayBusySlots = GetBusySlotsByDate(busySlots, currentDate);
                 
                 var dayFreeSlots = FindFreeTimeSlots(dayBusySlots, jobDuration, dayStart, dayEnd,
                     workerId, $"{worker.FirstName} {worker.LastName}");
@@ -145,5 +155,4 @@ public class WorkerRepository : SoftDeletableRepository<Worker>, IWorkerReposito
         
         return nearestFreeSlots;
     }
-    
 }
