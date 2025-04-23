@@ -16,6 +16,6 @@ public class GetAvailableWorkersQueryHandler : IRequestHandler<GetAvailableWorke
     public async Task<IEnumerable<Worker>> Handle(GetAvailableWorkersQuery request, CancellationToken cancellationToken)
     {
         var workers = await _repository.GetAvailableWorkersAsync();
-        return workers.Where(w => w.DeletedAt == null);
+        return workers;
     }
 }
